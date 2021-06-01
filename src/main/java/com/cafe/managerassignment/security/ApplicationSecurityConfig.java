@@ -21,7 +21,7 @@ import javax.crypto.SecretKey;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
@@ -42,24 +42,26 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .sessionManagement()
-                              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
-                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/static/css/*", "/js/*")
                 .permitAll()
                 .antMatchers("/**").hasRole(ApplicationUserRole.MANAGER.name())
-                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(ApplicationUserPermission.PRODUCT_WRITE.name())
-                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(ApplicationUserPermission.PRODUCT_WRITE.name())
-                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(ApplicationUserPermission.PRODUCT_WRITE.name())
-                .antMatchers(HttpMethod.GET, "/management/api/**").hasAnyRole(ApplicationUserRole.MANAGER.name(), ApplicationUserRole.USER.name())
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(ApplicationUserPermission.USER_WRITE.name())
+                .antMatchers(HttpMethod.POST, "/api/products").hasAuthority(ApplicationUserPermission.PRODUCT_WRITE.name())
+                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(ApplicationUserPermission.PRODUCT_WRITE.name())
+                .antMatchers(HttpMethod.GET, "/api/orders").hasRole(ApplicationUserRole.MANAGER.name())
+                .antMatchers(HttpMethod.GET, "/api/tables").hasAnyRole(ApplicationUserRole.USER.name())
                 .anyRequest()
                 .authenticated();
 
     }
+
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);

@@ -9,14 +9,17 @@ import javax.persistence.*;
 public class ProductInOrder extends AbstractBaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private InOrderStatus status;
+    private ProductInOrderStatus status;
+
     @Column(nullable = false)
     private Double amount;
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
 
     @ManyToOne
     User creator;
+
     @ManyToOne
     @MapsId
     private Order order_id;

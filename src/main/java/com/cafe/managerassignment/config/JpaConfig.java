@@ -11,12 +11,11 @@ import javax.sql.DataSource;
 public class JpaConfig {
     @Bean(name = "mySqlDataSource")
     @Primary
-    public DataSource mySqlDataSource()
-    {
+    public DataSource mySqlDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:mysql://localhost/cafeDB");
-        dataSourceBuilder.username("username");
-        dataSourceBuilder.password("");
+        dataSourceBuilder.url("jdbc:mysql://localhost:3306/cafeDB");
+        dataSourceBuilder.username("root");
+        dataSourceBuilder.password("root");
         return dataSourceBuilder.build();
         /*@Autowired    ----> @Primary
         DataSource dataSource;*/

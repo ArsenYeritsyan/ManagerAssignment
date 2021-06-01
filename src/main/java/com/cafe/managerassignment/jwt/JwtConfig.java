@@ -1,9 +1,10 @@
 package com.cafe.managerassignment.jwt;
+
 import com.google.common.net.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
-@ConfigurationProperties(prefix="application.jwt")
+@ConfigurationProperties(prefix = "application.jwt")
 public class JwtConfig {
     private String secretKey;
     private String tokenPrefix;
@@ -12,7 +13,7 @@ public class JwtConfig {
     public JwtConfig() {
     }
 
-    public String getAuthorizationHeader(){
+    public String getAuthorizationHeader() {
         return HttpHeaders.AUTHORIZATION;
     }
 

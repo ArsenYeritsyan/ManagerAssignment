@@ -26,7 +26,7 @@ private final PasswordEncoder passwordEncoder;
 
     private List<ApplicationUser> getApplicationUsers() {
         List<ApplicationUser> applicationUsers = Lists.newArrayList(
-                new ApplicationUser(ApplicationUserRole.MANAGER.getGrantedAuthorities(), passwordEncoder.encode("12121212"), "annas", true, true, true, true),
+                new ApplicationUser(ApplicationUserRole.MANAGER.getGrantedAuthorities(), passwordEncoder.encode("11112222"), "manager", true, true, true, true),
                 new ApplicationUser(ApplicationUserRole.USER.getGrantedAuthorities(), passwordEncoder.encode("pass1111"), "arsen", true, true, true, true)
         );
    return applicationUsers; }
