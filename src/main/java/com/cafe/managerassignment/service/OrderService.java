@@ -1,23 +1,13 @@
-package com.cafe.managerassignment.sevice;
+package com.cafe.managerassignment.service;
 
 import com.cafe.managerassignment.model.*;
 import com.cafe.managerassignment.repo.OrderRepository;
 import com.cafe.managerassignment.repo.ProductInOrderRepository;
-import com.cafe.managerassignment.repo.TableRepository;
-import com.cafe.managerassignment.repo.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Comparator;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,9 +35,8 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public void deleteById(String id) {
-        long orderId = Long.parseLong(id);
-        orderRepository.deleteById(orderId);
+    public void deleteById(Long id) {
+        orderRepository.deleteById(id);
     }
 
     public List<Order> findByOrderStatus(OrderStatus orderStatus) {
@@ -71,7 +60,10 @@ public class OrderService {
 
     public List<Order> findActiveOrders(OrderStatus orderStatus) {
         List<Order> orders = orderRepository.findByStatusNot(orderStatus);
-
+        return orders;
+    }
+    public List<Order> readOrdersByCreatedDate(Date date) {
+        List<Order> orders = orderRepository.findTopByCreatedBetween(date,LocalDate.now());
         return orders;
     }
 }

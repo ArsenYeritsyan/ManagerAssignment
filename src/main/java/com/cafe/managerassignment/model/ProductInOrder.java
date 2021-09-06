@@ -17,13 +17,14 @@ public class ProductInOrder extends AbstractBaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
 
+    @ManyToOne()
+    private Order order;
+
     @ManyToOne
     User creator;
 
-    @ManyToOne
-    @MapsId
-    private Order order_id;
     private Integer quantity;
 
-
+    public ProductInOrder() {
+    }
 }

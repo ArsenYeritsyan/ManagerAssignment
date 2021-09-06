@@ -1,4 +1,4 @@
-package com.cafe.managerassignment.sevice;
+package com.cafe.managerassignment.service;
 
 import com.cafe.managerassignment.exceptions.DataNotFoundException;
 import com.cafe.managerassignment.model.User;
@@ -49,9 +49,9 @@ public class UserService {
     public UserResponseModel findById(Long id) {
         User user;
         if (userRepository.findById(id).isPresent()) {
-            user = userRepository.findById(id).get();
+            user = (User) userRepository.findById(id).get();
         } else {
-            throw new DataNotFoundException("The user nor found");
+            throw new DataNotFoundException("The user not found");
         }
         return userToResponse(user);
     }
@@ -59,9 +59,9 @@ public class UserService {
     public UserResponseModel updateUser(Long id, UserRequestModel userRequestModel) {
         User user;
         if (userRepository.findById(id).isPresent()) {
-            user = userRepository.findById(id).get();
+            user = (User) userRepository.findById(id).get();
         } else {
-            throw new DataNotFoundException("The user nor found");
+            throw new DataNotFoundException("The user not found");
         }
         user.setUsername(userRequestModel.getUsername());
         user.setPassword(userRequestModel.getPassword());

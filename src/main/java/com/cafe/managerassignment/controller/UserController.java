@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@PreAuthorize("hasRole('MANAGER')")
 @RequestMapping("/api/users")
 public class UserController {
     private UserRepository userRepo;
@@ -23,7 +24,6 @@ public class UserController {
         this.userRepo = userRepo;
     }
 
-    @PreAuthorize("hasRole(Manager)")
     @PostMapping()
     public ResponseEntity<User> createUserByManager(@Validated @RequestBody User user, @RequestParam("manager_id") Long id) {
         Optional<User> managerOptional = userRepo.findById(id);
@@ -33,7 +33,7 @@ public class UserController {
         }
 
         user.setRole(ApplicationUserRole.USER);
-        User savedUser = userRepo.save(user);
+        User savedUser = (User) userRepo.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 

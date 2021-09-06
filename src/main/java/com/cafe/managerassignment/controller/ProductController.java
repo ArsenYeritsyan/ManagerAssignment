@@ -2,7 +2,7 @@ package com.cafe.managerassignment.controller;
 
 import com.cafe.managerassignment.model.restmodel.ProductRequestModel;
 import com.cafe.managerassignment.model.restmodel.ProductResponseModel;
-import com.cafe.managerassignment.sevice.ProductService;
+import com.cafe.managerassignment.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

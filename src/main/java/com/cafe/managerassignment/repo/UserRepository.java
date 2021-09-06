@@ -1,14 +1,14 @@
 package com.cafe.managerassignment.repo;
 
-import com.cafe.managerassignment.model.Order;
 import com.cafe.managerassignment.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
-public interface UserRepository extends CrudRepository<User, Long> {
-    List<User> findAll();
+@Repository
+public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findByUsername(String username);
 }

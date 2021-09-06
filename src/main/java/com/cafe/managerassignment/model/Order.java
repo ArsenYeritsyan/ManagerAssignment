@@ -1,46 +1,19 @@
 package com.cafe.managerassignment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.internal.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
-@Entity(name = "orders")
+@EqualsAndHashCode(callSuper = true)
+@Entity(name="Order")
 @Data
 public class Order extends AbstractBaseEntity {
-
-
-    @OneToOne
-    @MapsId
-    private User user;
-
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "order")
-    private Set<ProductInOrder> products = new HashSet<>();
-
-    @NotNull
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "table_id", nullable = false)
-    private Table table;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 9, nullable = false)
-    private OrderStatus status;
-
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProductInOrder> productInOrders = new HashSet<>();
 
     public Order() {
     }
@@ -52,5 +25,33 @@ public class Order extends AbstractBaseEntity {
         this.table = table;
         this.status = status;
     }
+    @ManyToOne()
+    @JsonIgnoreProperties({"orders"})
+    private User user;
 
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "Order")
+    private Set<ProductInOrder> products = new HashSet<>();
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "table_id", nullable = false)
+    private Table table;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 4, nullable = false)
+    private OrderStatus status;
+
+
+    @OneToMany(mappedBy = "Order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProductInOrder> productInOrders = new HashSet<>();
+
+
+    @JsonIgnore
+    public boolean isOpen(){
+        return status == OrderStatus.OPEN;
+    }
 }

@@ -1,13 +1,17 @@
 package com.cafe.managerassignment.model;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "products")
 @Data
 public class Product extends AbstractBaseEntity {
@@ -28,5 +32,14 @@ public class Product extends AbstractBaseEntity {
     }
 
     public Product() {
+    }
+
+    public Set<ProductInOrder> getProductInOrders() {
+        return Collections.unmodifiableSet(productInOrders);
+    }
+
+    public void addProductInOrders(ProductInOrder productInOrders) {
+        productInOrders.setProduct(this);
+        this.productInOrders.add(productInOrders);
     }
 }

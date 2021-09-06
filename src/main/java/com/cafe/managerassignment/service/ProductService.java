@@ -1,4 +1,4 @@
-package com.cafe.managerassignment.sevice;
+package com.cafe.managerassignment.service;
 
 import com.cafe.managerassignment.exceptions.DataNotFoundException;
 import com.cafe.managerassignment.model.Product;

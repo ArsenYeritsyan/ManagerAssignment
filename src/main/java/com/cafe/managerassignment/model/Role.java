@@ -2,22 +2,22 @@ package com.cafe.managerassignment.model;
 
 import com.cafe.managerassignment.security.ApplicationUserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Data
-public class Role {
+public class Role extends AbstractBaseEntity {
     @Id
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "`role_name`", length = 7, nullable = false)
     ApplicationUserRole roleName;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonIgnore
     List<User> users;
 
